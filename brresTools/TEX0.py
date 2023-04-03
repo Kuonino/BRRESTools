@@ -206,20 +206,20 @@ class TEX0:
             RGB565List += struct.pack(">H", RGB565)
 
         return RGB565List
-    
+
     def cvt_RGB5A3_to_RGBA(self, data: bytes) -> np.array:
         RGBAList = []
 
         for colorStart in range(0, len(data), 2):
-            RGB5A3 = struct.unpack(">H", data[colorStart: colorStart + 2])[0]
+            RGB5A3 = struct.unpack(">H", data[colorStart : colorStart + 2])[0]
             RGBA: list[int] = []
 
-            if (RGB5A3 >> 15) & 1: #doesn't use alpha channel
+            if (RGB5A3 >> 15) & 1:  # doesn't use alpha channel
                 RGBA.append(((RGB5A3 >> 10) & MASK5) * 0x8)
                 RGBA.append(((RGB5A3 >> 5) & MASK5) * 0x8)
                 RGBA.append((RGB5A3 & MASK5) * 0x8)
                 RGBA.append(0xFF)
-            else: #does use alpha channel
+            else:  # does use alpha channel
                 RGBA.append(((RGB5A3 >> 8) & MASK4) * 0x11)
                 RGBA.append(((RGB5A3 >> 4) & MASK4) * 0x11)
                 RGBA.append((RGB5A3 & MASK4) * 0x11)
@@ -228,22 +228,22 @@ class TEX0:
             RGBAList.append(RGBA)
 
         return self.reorder_blocks(data=RGBAList)
-    
-    def cvt_RGBA_to_RGBA5A3(self, data:np.array) -> bytes:
+
+    def cvt_RGBA_to_RGBA5A3(self, data: np.array) -> bytes:
         dataList: list = self.reorder_blocks_back(data=data)
 
         RGB5A3List: bytearray = bytearray()
 
         for color in dataList:
-            if color[3] == 0xFF: #doesn't use alpha channel
+            if color[3] == 0xFF:  # doesn't use alpha channel
                 R = (color[0] // 0x8) << 10
                 G = (color[1] // 0x8) << 5
-                B = (color[2] // 0x8)
+                B = color[2] // 0x8
                 A = 0b1 << 15
-            else: # does use alpha channel
+            else:  # does use alpha channel
                 R = (color[0] // 0x11) << 8
                 G = (color[1] // 0x11) << 4
-                B = (color[2] // 0x11)
+                B = color[2] // 0x11
                 A = (color[3] // 0x20) << 12
 
             RGB5A3 = R | G | B | A
