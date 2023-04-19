@@ -1,3 +1,4 @@
+# Reference for all image format conversions - https://wiki.tockdom.com/wiki/Image_Formats
 from io import BufferedIOBase
 import numpy as np
 import struct
@@ -115,57 +116,87 @@ class TEX0:
             case "I4":
                 return self.cvt_I4_to_RGBA(data=data)
             case "I8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "IA4":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "IA8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "RGB565":
                 return self.cvt_RGB565_to_RGBA(data=data)
             case "RGB5A3":
                 return self.cvt_RGB5A3_to_RGBA(data=data)
             case "RGBA32":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C4":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C14X2":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "CMPR":
                 return self.cvt_CMPR_to_RGBA(data=data)
             case _:
                 raise Exception(
-                    f"Invalid image format {self.imageDataOffset} in convert_raw_image_data_to_RGBA"
+                    f"Invalid image format {self.imageDataOffset} in convert_raw_image_data_to_RGBA."
                 )
 
     def convert_RGBA_to_raw_image_data(self, data: np.array) -> bytes:
         match IMAGE_FORMATS_NAMES[self.imageFormat]:
             case "I4":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "I8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "IA4":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "IA8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "RGB565":
                 return self.cvt_RGBA_to_RGB565(data=data)
             case "RGB5A3":
                 return self.cvt_RGBA_to_RGBA5A3(data=data)
             case "RGBA32":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C4":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C8":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "C14X2":
-                pass
+                raise Exception(
+                    f"Unsupported image format {IMAGE_FORMATS_NAMES[self.imageFormat]}."
+                )
             case "CMPR":
                 return self.cvt_RGBA_to_CMPR(data=data)
             case _:
                 raise Exception(
-                    f"Invalid image format {self.imageDataOffset} in convert_RGBA_to_raw_image_data"
+                    f"Invalid image format {self.imageDataOffset} in convert_RGBA_to_raw_image_data."
                 )
 
     def cvt_I4_to_RGBA(self, data: bytes) -> np.array:
@@ -376,7 +407,7 @@ class TEX0:
                     if (
                         len(colors) == 0
                     ):  # for full sub block of alpha, nothing will be added to colors list
-                        c0 = self.cvt_single_RGBA_to_RGB565((255, 255, 255, 0))
+                        c0 = self.cvt_single_RGBA_to_RGB565((0, 0, 0, 0))
                         c1 = c0
                         c2 = c0
                         c3 = c0
@@ -392,7 +423,7 @@ class TEX0:
                             255,
                         )
                         c2 = self.cvt_single_RGBA_to_RGB565(RGBAc2)
-                        c3 = self.cvt_single_RGBA_to_RGB565((255, 255, 255, 0))
+                        c3 = self.cvt_single_RGBA_to_RGB565((0, 0, 0, 0))
                 else:
                     c0 = colors[-1]
                     c1 = colors[0]
